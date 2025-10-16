@@ -35,6 +35,10 @@ export default defineConfig({
 
   // Project ID and dataset from environment variables
   // Set these in your .env.local file
+  //
+  // IMPORTANT: For cloud deployment to sanity.studio, you must replace
+  // process.env.SANITY_PROJECT_ID with your actual project ID string
+  // Example: projectId: 'abc123xyz',
   projectId: process.env.SANITY_PROJECT_ID || '',
   dataset: process.env.SANITY_DATASET || 'production',
 
