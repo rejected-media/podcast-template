@@ -11,10 +11,12 @@
     "astro": "astro",
     "sanity:dev": "sanity dev",
     "sanity:build": "sanity build",
-    "sanity:deploy": "sanity deploy"
+    "sanity:deploy": "sanity deploy",
+    "import:episodes": "podcast-framework import-rss"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.0",
+    "@rejected-media/podcast-framework-cli": "^0.1.9",
     "@rejected-media/podcast-framework-core": "^0.1.1",
     "@rejected-media/podcast-framework-sanity-schema": "^1.0.0",
     "@sanity/client": "^7.12.0",
