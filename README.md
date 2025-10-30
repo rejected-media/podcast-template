@@ -101,6 +101,108 @@ The free tier includes unlimited Studio hosting.
 
 ---
 
+## 📰 Newsletter Configuration
+
+The framework includes a built-in newsletter signup form that integrates with ConvertKit.
+
+### Setup Requirements
+
+For the newsletter signup form to appear, **both** of the following must be configured:
+
+1. **ConvertKit API credentials** in `.env`:
+   ```bash
+   CONVERTKIT_API_KEY=your_api_key
+   CONVERTKIT_FORM_ID=your_form_id
+   ```
+
+2. **Newsletter enabled in Sanity CMS:**
+   - Open Sanity Studio (http://localhost:3333 or your deployed Studio)
+   - Go to the "Podcast" document
+   - Set `Newsletter Enabled` to **true**
+   - Set `Is Active` to **true**
+   - Save and publish
+
+### Why This Two-Step Setup?
+
+This design allows you to:
+- Temporarily disable the newsletter without removing API credentials
+- Test the site without ConvertKit configured
+- Control newsletter visibility per environment
+
+### Troubleshooting
+
+**Newsletter form not appearing?**
+- ✅ Check ConvertKit credentials are in `.env`
+- ✅ Verify `newsletterEnabled: true` in Sanity podcast document
+- ✅ Verify `isActive: true` in Sanity podcast document
+- ✅ Restart dev server after adding environment variables
+
+---
+
+## 📥 Importing Episodes from RSS Feed
+
+If you have an existing podcast with episodes in an RSS feed (from Transistor, Spotify, Apple Podcasts, etc.), you can bulk import them into Sanity.
+
+### When to Import
+
+Run the import **after** you've set up Sanity CMS but **before** your first deployment.
+
+### Import Command
+
+```bash
+npm run import:episodes
+```
+
+### What Happens
+
+The CLI will:
+1. Prompt for your podcast's RSS feed URL
+2. Fetch all episodes from the feed
+3. Parse episode metadata (title, description, audio URL, publish date, etc.)
+4. Create episode documents in Sanity CMS
+5. Show a summary of imported episodes
+
+### Expected Output
+
+```
+🎙️  Importing episodes from RSS feed...
+
+✓ Found 42 episodes in feed
+✓ Creating episode documents in Sanity...
+✓ Imported 42 episodes successfully
+
+Episodes are now in your Sanity CMS. Visit your Studio to review and publish them.
+```
+
+### Re-importing Episodes
+
+To import new episodes without duplicating existing ones:
+
+```bash
+npm run import:episodes
+```
+
+The CLI intelligently skips episodes that already exist in Sanity (matched by episode number or GUID).
+
+### Supported RSS Feed Sources
+
+- Transistor
+- Spotify for Podcasters
+- Apple Podcasts
+- Buzzsprout
+- Libsyn
+- Any RSS 2.0 or Atom podcast feed
+
+### Troubleshooting
+
+**Import fails?**
+- ✅ Verify your RSS feed URL is correct and accessible
+- ✅ Check Sanity credentials are in `.env`
+- ✅ Ensure you have write permissions (SANITY_TOKEN with Editor role)
+- ✅ Check console output for specific error messages
+
+---
+
 ## 📦 What's Included
 
 ### Framework Packages
@@ -183,25 +285,253 @@ features: {
 
 ## 🚢 Deployment
 
-### Cloudflare Pages (Recommended)
+This template is **pre-configured for Cloudflare Pages** with the adapter already installed. You can also deploy to Netlify or Vercel with minor configuration changes.
 
-1. Push your code to GitHub
-2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/pages)
-3. Click "Create a project"
-4. Connect your GitHub repository
-5. Configure:
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-6. Add environment variables (SANITY_PROJECT_ID, etc.)
-7. Deploy!
+### Platform Requirements
+
+All platforms require:
+- **Node.js 18+** for the build
+- **SSR adapter** installed (handles API routes and server-side rendering)
+- **Environment variables** configured in the platform dashboard
+
+---
+
+### Cloudflare Pages (Recommended - Pre-configured)
+
+**Why Cloudflare Pages?**
+- ✅ Free tier includes unlimited bandwidth
+- ✅ Global CDN with 300+ locations
+- ✅ Built-in analytics
+- ✅ Zero-config SSL
+- ✅ Excellent performance
+
+**Adapter:** Already installed (`@astrojs/cloudflare`)
+
+**Deployment Steps:**
+
+1. **Push code to GitHub**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/YOUR_USERNAME/your-podcast.git
+   git push -u origin main
+   ```
+
+2. **Create Cloudflare Pages project**
+   - Go to [Cloudflare Dashboard → Pages](https://dash.cloudflare.com/pages)
+   - Click "Create a project"
+   - Select "Connect to Git"
+   - Authorize GitHub and select your repository
+
+3. **Configure build settings**
+   - **Framework preset:** Astro
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   - **Root directory:** (leave empty)
+
+4. **Add environment variables** (in Cloudflare Pages dashboard):
+   ```
+   PUBLIC_SANITY_PROJECT_ID=your_project_id
+   PUBLIC_SANITY_DATASET=production
+   SANITY_TOKEN=your_write_token
+   PUBLIC_SITE_URL=https://your-podcast.pages.dev
+
+   # Optional: Newsletter
+   CONVERTKIT_API_KEY=your_api_key
+   CONVERTKIT_FORM_ID=your_form_id
+
+   # Optional: Email notifications
+   RESEND_API_KEY=your_resend_key
+   NOTIFICATION_EMAIL=admin@yourpodcast.com
+
+   # Optional: Analytics
+   GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+
+5. **Deploy!**
+   - Click "Save and Deploy"
+   - Wait 2-3 minutes for build
+   - Your site will be live at `https://your-podcast.pages.dev`
+
+6. **Set up custom domain** (optional)
+   - Go to your Pages project → Custom domains
+   - Click "Set up a custom domain"
+   - Follow DNS configuration instructions
+
+**Troubleshooting:**
+- ❌ Build fails → Check environment variables are set
+- ❌ API routes 404 → Verify adapter is `@astrojs/cloudflare` in `astro.config.mjs`
+- ❌ Missing content → Check Sanity project ID and token
+
+**Branch Deployments:**
+- `main` branch → Production (your-podcast.pages.dev)
+- Other branches → Preview deployments (branch-name.your-podcast.pages.dev)
+
+---
 
 ### Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rejected-media/podcast-template)
+**Adapter Required:** `@astrojs/vercel`
+
+**Setup:**
+
+1. **Install Vercel adapter**
+   ```bash
+   npm uninstall @astrojs/cloudflare
+   npm install @astrojs/vercel
+   ```
+
+2. **Update `astro.config.mjs`**
+   ```javascript
+   import vercel from '@astrojs/vercel/serverless';
+
+   export default defineConfig({
+     output: 'server',
+     adapter: vercel(),
+     // ... rest of config
+   });
+   ```
+
+3. **Deploy**
+   - Push to GitHub
+   - Import project at [vercel.com/new](https://vercel.com/new)
+   - Vercel auto-detects Astro and configures build
+   - Add environment variables in Vercel dashboard
+   - Deploy!
+
+**Build settings:**
+- Framework: Astro
+- Build command: `npm run build`
+- Output directory: `dist`
+
+---
 
 ### Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rejected-media/podcast-template)
+**Adapter Required:** `@astrojs/netlify`
+
+**Setup:**
+
+1. **Install Netlify adapter**
+   ```bash
+   npm uninstall @astrojs/cloudflare
+   npm install @astrojs/netlify
+   ```
+
+2. **Update `astro.config.mjs`**
+   ```javascript
+   import netlify from '@astrojs/netlify';
+
+   export default defineConfig({
+     output: 'server',
+     adapter: netlify(),
+     // ... rest of config
+   });
+   ```
+
+3. **Create `netlify.toml`** (optional, for build config)
+   ```toml
+   [build]
+     command = "npm run build"
+     publish = "dist"
+
+   [[plugins]]
+     package = "@netlify/plugin-nextjs"
+   ```
+
+4. **Deploy**
+   - Push to GitHub
+   - Go to [app.netlify.com](https://app.netlify.com)
+   - Click "Add new site" → "Import from Git"
+   - Select repository and configure
+   - Add environment variables in Netlify dashboard
+   - Deploy!
+
+---
+
+### Environment Variables by Platform
+
+**All platforms need these variables:**
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `PUBLIC_SANITY_PROJECT_ID` | Your project ID | From sanity.io/manage |
+| `PUBLIC_SANITY_DATASET` | `production` | Usually "production" |
+| `SANITY_TOKEN` | Write token | For imports and Studio auth |
+| `PUBLIC_SITE_URL` | Your domain | Full URL (https://...) |
+
+**Optional variables:**
+
+| Variable | Required For | Description |
+|----------|--------------|-------------|
+| `CONVERTKIT_API_KEY` | Newsletter | From ConvertKit settings |
+| `CONVERTKIT_FORM_ID` | Newsletter | Your form ID |
+| `RESEND_API_KEY` | Email notifications | From resend.com |
+| `NOTIFICATION_EMAIL` | Email notifications | Where to send admin emails |
+| `GA_MEASUREMENT_ID` | Google Analytics | G-XXXXXXXXXX format |
+| `STUDIO_URL` | Email links | URL to your Studio (optional) |
+
+---
+
+### Staging vs Production
+
+For a professional setup with staging and production environments:
+
+1. **Create two Sanity datasets:**
+   - `staging` - for testing
+   - `production` - for live site
+
+2. **Set up two deployments:**
+   - **Staging:** Deploy from `staging` branch → Uses `SANITY_DATASET=staging`
+   - **Production:** Deploy from `main` branch → Uses `SANITY_DATASET=production`
+
+3. **Workflow:**
+   ```bash
+   # Develop on feature branch
+   git checkout -b feature/new-design
+   git commit -m "Update homepage design"
+
+   # Merge to staging for testing
+   git checkout staging
+   git merge feature/new-design
+   git push origin staging  # → Deploys to staging.yourpodcast.com
+
+   # After testing, promote to production
+   git checkout main
+   git merge staging
+   git push origin main  # → Deploys to yourpodcast.com
+   ```
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for a comprehensive production deployment guide.
+
+---
+
+### Deployment Checklist
+
+Before your first deployment:
+
+- [ ] ✅ All environment variables configured in platform dashboard
+- [ ] ✅ Sanity Studio deployed (`npm run sanity:deploy`)
+- [ ] ✅ DNS configured (if using custom domain)
+- [ ] ✅ SSL/TLS enabled (auto on all platforms)
+- [ ] ✅ Episodes imported or created in Sanity
+- [ ] ✅ Podcast metadata configured (name, description, logo)
+- [ ] ✅ Theme configured (colors, typography, layout)
+- [ ] ✅ Homepage config created and activated in Sanity
+- [ ] ✅ About page config created (optional)
+- [ ] ✅ Test newsletter signup (if enabled)
+- [ ] ✅ Test contribution form
+- [ ] ✅ Verify episode pages load correctly
+- [ ] ✅ Check mobile responsiveness
+
+**First deployment usually takes:**
+- ⏱️ Cloudflare Pages: 2-3 minutes
+- ⏱️ Vercel: 1-2 minutes
+- ⏱️ Netlify: 2-4 minutes
+
+**Subsequent deployments:**
+- ⏱️ All platforms: 1-2 minutes (cached dependencies)
 
 ---
 
