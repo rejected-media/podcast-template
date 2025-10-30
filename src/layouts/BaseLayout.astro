@@ -1,8 +1,31 @@
 ---
 /**
- * Base Layout for Podcast Site
+ * Base Layout Wrapper
  *
- * This layout imports global styles and uses the framework's BaseLayout
+ * IMPORTANT: Always import THIS file in your pages, not the framework's BaseLayout directly!
+ *
+ * This wrapper serves a critical purpose:
+ * 1. Imports global.css (Tailwind CSS and custom styles)
+ * 2. Wraps the framework's BaseLayout (which handles SEO, analytics, Header, Footer)
+ *
+ * Why this pattern?
+ * - The framework's BaseLayout is CSS-agnostic (works with any CSS framework)
+ * - Your project controls CSS loading via this wrapper
+ * - Allows you to customize which styles are loaded
+ *
+ * @example Usage in pages:
+ * ```astro
+ * ---
+ * import BaseLayout from '../layouts/BaseLayout.astro';  // ← Import THIS file
+ * ---
+ * <BaseLayout title="My Page" description="Description">
+ *   <h1>Content</h1>
+ * </BaseLayout>
+ * ```
+ *
+ * ⚠️ DO NOT import framework's BaseLayout directly:
+ * ❌ import BaseLayout from '@rejected-media/podcast-framework-core/layouts/BaseLayout.astro';
+ * ✅ import BaseLayout from '../layouts/BaseLayout.astro';
  */
 import FrameworkBaseLayout from '@rejected-media/podcast-framework-core/layouts/BaseLayout.astro';
 import type { Theme, PodcastInfo } from '@rejected-media/podcast-framework-core';
