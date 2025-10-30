@@ -42,9 +42,11 @@ nano .env.local
 ```
 
 **Required variables:**
-- `SANITY_PROJECT_ID` - Your Sanity project ID
-- `SANITY_DATASET` - Usually "production"
-- `SANITY_TOKEN` - Create a token in Sanity dashboard
+- `PUBLIC_SANITY_PROJECT_ID` - Your Sanity project ID (exposed to client)
+- `SANITY_PROJECT_ID` - Your Sanity project ID (server-side)
+- `PUBLIC_SANITY_DATASET` - Usually "production" (exposed to client)
+- `SANITY_DATASET` - Usually "production" (server-side)
+- `SANITY_API_TOKEN` - Create a write token in Sanity dashboard (for API routes)
 
 ### 6. Start Development Servers
 
@@ -198,7 +200,7 @@ The CLI intelligently skips episodes that already exist in Sanity (matched by ep
 **Import fails?**
 - ✅ Verify your RSS feed URL is correct and accessible
 - ✅ Check Sanity credentials are in `.env`
-- ✅ Ensure you have write permissions (SANITY_TOKEN with Editor role)
+- ✅ Ensure you have write permissions (SANITY_API_TOKEN with Editor role)
 - ✅ Check console output for specific error messages
 
 ---
@@ -334,7 +336,9 @@ All platforms require:
    ```
    PUBLIC_SANITY_PROJECT_ID=your_project_id
    PUBLIC_SANITY_DATASET=production
-   SANITY_TOKEN=your_write_token
+   SANITY_PROJECT_ID=your_project_id
+   SANITY_DATASET=production
+   SANITY_API_TOKEN=your_write_token
    PUBLIC_SITE_URL=https://your-podcast.pages.dev
 
    # Optional: Newsletter
@@ -456,9 +460,11 @@ All platforms require:
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `PUBLIC_SANITY_PROJECT_ID` | Your project ID | From sanity.io/manage |
-| `PUBLIC_SANITY_DATASET` | `production` | Usually "production" |
-| `SANITY_TOKEN` | Write token | For imports and Studio auth |
+| `PUBLIC_SANITY_PROJECT_ID` | Your project ID | From sanity.io/manage (client-side) |
+| `PUBLIC_SANITY_DATASET` | `production` | Usually "production" (client-side) |
+| `SANITY_PROJECT_ID` | Your project ID | From sanity.io/manage (server-side) |
+| `SANITY_DATASET` | `production` | Usually "production" (server-side) |
+| `SANITY_API_TOKEN` | Write token | For API routes (contribute, etc.) |
 | `PUBLIC_SITE_URL` | Your domain | Full URL (https://...) |
 
 **Optional variables:**

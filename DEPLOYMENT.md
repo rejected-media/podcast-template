@@ -351,7 +351,9 @@ Add these in your hosting platform's dashboard with **Production** scope:
 # Sanity CMS
 PUBLIC_SANITY_PROJECT_ID=your_project_id
 PUBLIC_SANITY_DATASET=production
-SANITY_TOKEN=your_production_token
+SANITY_PROJECT_ID=your_project_id
+SANITY_DATASET=production
+SANITY_API_TOKEN=your_production_token
 
 # Site Configuration
 PUBLIC_SITE_URL=https://yourpodcast.com
@@ -379,7 +381,9 @@ Add these with **Preview/Staging** scope:
 # Sanity CMS
 PUBLIC_SANITY_PROJECT_ID=your_project_id
 PUBLIC_SANITY_DATASET=staging  # ← Different dataset
-SANITY_TOKEN=your_staging_token  # ← Different token
+SANITY_PROJECT_ID=your_project_id
+SANITY_DATASET=staging  # ← Different dataset
+SANITY_API_TOKEN=your_staging_token  # ← Different token
 
 # Site Configuration
 PUBLIC_SITE_URL=https://staging.yourpodcast.com
