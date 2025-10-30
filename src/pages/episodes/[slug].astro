@@ -94,7 +94,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
         <!-- Hosts Section -->
         {episode.hosts && episode.hosts.length > 0 && (
           <div>
-            <h2 class="text-lg font-semibold mb-3">{episode.hosts.length === 1 ? 'Host' : 'Hosts'}</h2>
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">{episode.hosts.length === 1 ? 'Host' : 'Hosts'}</h2>
             <div class="flex flex-wrap gap-4">
               {episode.hosts.map((host) => (
                 <div class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
@@ -131,7 +131,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
         <!-- Guests Section -->
         {episode.guests && episode.guests.length > 0 && (
           <div>
-            <h2 class="text-lg font-semibold mb-3">{episode.guests.length === 1 ? 'Guest' : 'Guests'}</h2>
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">{episode.guests.length === 1 ? 'Guest' : 'Guests'}</h2>
             <div class="flex flex-wrap gap-4">
               {episode.guests.map((guest) => (
                 <a
@@ -167,7 +167,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
 
     <!-- Episode Description -->
     <div class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4">About This Episode</h2>
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">About This Episode</h2>
       <div class="text-gray-700 leading-relaxed prose prose-blue max-w-none [&_a]:text-blue-600 [&_a]:underline [&_a:hover]:text-blue-800" set:html={episode.description} />
     </div>
 
@@ -199,7 +199,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
     <!-- Platform Links -->
     {(episode.spotifyLink || episode.youtubeLink || episode.applePodcastLink || podcastInfo?.rssUrl) && (
       <div class="mb-12">
-        <h3 class="text-lg font-semibold mb-3 text-center">Listen to this episode on:</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-3 text-center">Listen to this episode on:</h3>
         <div class="flex flex-wrap gap-3 justify-center">
           {episode.spotifyLink && (
             <a
@@ -260,7 +260,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
     <!-- Show Notes (if available) -->
     {episode.showNotes && episode.showNotes.length > 0 && (
       <div class="mb-12">
-        <h2 class="text-2xl font-semibold mb-4">Show Notes</h2>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Show Notes</h2>
         <div class="prose prose-blue max-w-none">
           {episode.showNotes.map((block: any) => {
             if (block._type === 'block') {
