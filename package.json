@@ -1,7 +1,7 @@
 {
   "name": "my-podcast",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "A podcast website built with Podcast Framework",
   "scripts": {
@@ -15,6 +15,7 @@
     "import:episodes": "podcast-framework import-rss"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.0",
     "@astrojs/node": "^9.5.0",
     "@rejected-media/podcast-framework-cli": "^0.1.10",
     "@rejected-media/podcast-framework-core": "^0.1.1",
