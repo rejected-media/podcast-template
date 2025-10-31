@@ -14,8 +14,10 @@ export default defineConfig({
   adapter: cloudflare({
     platformProxy: {
       enabled: true // Enable for local dev with Cloudflare bindings
-    }
+    },
+    imageService: 'compile' // Process images at build time, not runtime
   }),
+
 
   // Alternative: Node.js adapter (uncomment to use instead of Cloudflare)
   // adapter: node({
