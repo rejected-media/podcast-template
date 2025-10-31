@@ -16,7 +16,6 @@ export const prerender = true;
 
 import {
   getStaticPathsForEpisodes,
-  getEpisode,
   getPodcast,
   getTheme,
   formatDate,
@@ -184,11 +183,10 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
     {spotifyEmbedUrl && (
       <div class="mb-8 bg-white rounded-lg shadow-sm p-6">
         <iframe
-          style="border-radius:12px"
+          style="border-radius:12px; border:0"
           src={spotifyEmbedUrl}
           width="100%"
           height="232"
-          frameborder="0"
           allowfullscreen=""
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
