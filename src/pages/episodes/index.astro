@@ -89,7 +89,7 @@ const siteName = podcastInfo?.name || "Podcast";
           data-episode-card
           data-episode-title={episode.title}
           data-episode-description={stripHTML(episode.description)}
-          data-episode-guests={episode.guests?.map(g => g.name).join(', ') || ''}
+          data-episode-guests={episode.guests.map(g => g.name).join(', ')}
         >
           <div class="flex items-start gap-6">
             <!-- Episode Cover Image or Podcast Logo -->

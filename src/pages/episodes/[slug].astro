@@ -88,10 +88,10 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
     </div>
 
     <!-- Hosts and Guests Section -->
-    {((episode.hosts?.length ?? 0) > 0 || (episode.guests?.length ?? 0) > 0) && (
+    {(episode.hosts.length > 0 || episode.guests.length > 0) && (
       <div class="mb-8 flex flex-col md:flex-row gap-6 md:items-start">
         <!-- Hosts Section -->
-        {episode.hosts && episode.hosts.length > 0 && (
+        {episode.hosts.length > 0 && (
           <div>
             <h2 class="text-lg font-semibold text-gray-900 mb-3">{episode.hosts.length === 1 ? 'Host' : 'Hosts'}</h2>
             <div class="flex flex-wrap gap-4">
@@ -128,7 +128,7 @@ const ogImage = episode.coverImage?.url || podcastInfo?.logo?.url;
         )}
 
         <!-- Guests Section -->
-        {episode.guests && episode.guests.length > 0 && (
+        {episode.guests.length > 0 && (
           <div>
             <h2 class="text-lg font-semibold text-gray-900 mb-3">{episode.guests.length === 1 ? 'Guest' : 'Guests'}</h2>
             <div class="flex flex-wrap gap-4">
