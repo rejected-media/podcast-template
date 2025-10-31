@@ -557,6 +557,18 @@ Before your first deployment:
 
 ---
 
+## 🔒 Security
+
+### npm Audit Warnings
+
+You may see **10 low-severity warnings** when running `npm audit`. These are known, documented, and **not a security concern**. They originate from an unmaintained package deep in Sanity's dependency tree.
+
+**TL;DR:** Low severity (2.9/10), extremely low exploitation probability (<0.1%), only affects server-side development tools, and doesn't impact your public website.
+
+**For full details, see:** [SECURITY.md](./SECURITY.md)
+
+---
+
 ## 🛠️ CLI Commands
 
 The framework includes a CLI tool for common tasks:
